@@ -3,7 +3,7 @@ module MailChimp
 
       def self.included(target)
           target.class_eval do
-              create.after :create_in_mailchimp
+              after_filter :create_in_mailchimp, :only => [:create]
               update.after :update_in_mailchimp
               destroy.after :remove_from_mailchimp
           end
@@ -20,10 +20,10 @@ module MailChimp
           return unless @user.is_mail_list_subscriber
 
           hom = Hominid::Base.new({:api_key => mc_api_key})
-          User.class.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
+          User.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
               hom.subscribe(mc_list_id, @user.email, Spree::Config.get(:mailchimp_subscription_opts))
           end
-          User.class.benchmark "Fetching new mailchimp subscriber info" do
+          User.benchmark "Fetching new mailchimp subscriber info" do
               mc_member = hom.member_info(mc_list_id, @user.email)
               logger.debug mc_member.inspect
               @user.send(:attributes=, { :mailchimp_subscriber_id => mc_member[:id]}, false)

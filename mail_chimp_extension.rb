@@ -1,5 +1,3 @@
-# Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application'
 
 class MailChimpExtension < Spree::Extension
   version "1.0"
@@ -14,9 +12,10 @@ class MailChimpExtension < Spree::Extension
   def activate
 
     require 'hominid' # http://github.com/bgetting/hominid
-    ActiveRecord::Base.send(:include, MailChimp::Sync)
+
+    UsersController.send(:include, MailChimp::Sync)
+
     User.class_eval do 
-      sync_with_mailchimp
       attr_accessible :is_mail_list_subscriber
     end 
     

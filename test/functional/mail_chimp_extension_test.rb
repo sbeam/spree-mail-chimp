@@ -3,8 +3,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MailChimpExtensionTest < Test::Unit::TestCase
   
   # Replace this with your real tests.
-  def test_this_extension
-    flunk
+  def test_subscription
+      
+      User.create(:email => 'rand1'+rand(1000)+'@example.com', :password => 'abc123', :password_confirmation => 'abc123');
+
+    
   end
   
   def test_initialization

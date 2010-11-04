@@ -23,13 +23,14 @@ module MailChimp
           User.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
               hom.subscribe(mc_list_id, @user.email, Spree::Config.get(:mailchimp_subscription_opts))
           end
-          User.benchmark "Fetching new mailchimp subscriber info" do
-              mc_member = hom.member_info(mc_list_id, @user.email)
-              logger.debug mc_member.inspect
-              @user.send(:attributes=, { :mailchimp_subscriber_id => mc_member[:id]}, false)
-          end
-          #rescue
-          #logger.warn "mailchimp-API: Failed to create contact #{id} in mailchimp: #{$1}"
+          logger.debug "Fetching new mailchimp subscriber info"
+          mc_member = hom.member_info(mc_list_id, @user.email)
+          logger.debug mc_member.inspect
+          @user.mailchimp_subscriber_id = mc_member['id']
+          @user.save
+      rescue
+          # TODO alert someone there is a problem with mailchimp
+          logger.warn "mailchimp-API: Failed to create contact #{id} in mailchimp: #{$1}"
       end
 
       # run before_update, but we don't want to do this everytime

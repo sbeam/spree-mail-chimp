@@ -45,15 +45,15 @@ module MailChimp
                 User.benchmark "Updating mailchimp subscriber (list id=#{mc_list_id}, member=#{@user.mailchimp_subscriber_id})" do
                     hom.update_member(mc_list_id, @user.mailchimp_subscriber_id, {:EMAIL => @user.email})
                 end
-            elsif params[:is_mail_list_subscriber].to_i.equal?(1) && @user.mailchimp_subscriber_id.blank?
+            elsif params[:user][:is_mail_list_subscriber].to_i.equal?(1) && @user.mailchimp_subscriber_id.blank?
                 create_in_mailchimp 
-            elsif params[:is_mail_list_subscriber].to_i.zero? && !@user.mailchimp_subscriber_id.blank?
+            elsif params[:user][:is_mail_list_subscriber].to_i.zero? && !@user.mailchimp_subscriber_id.blank?
                 remove_from_mailchimp
             end
 
         end
-      #rescue
-        #logger.warn "mailchimp-API: Falhou ao atualizar o contato #{id} no mailchimp"
+      rescue
+        logger.warn "mailchimp-API: Failed to update mailchimp record for user id=#{@user.id}"
       end
 
       def remove_from_mailchimp 
@@ -66,8 +66,8 @@ module MailChimp
                 hom.unsubscribe(mc_list_id, @user.email)
             end
         end
-      #rescue
-        #logger.warn "mailchimp-API: could not remove user id=#{id} from Mailchimp"
+      rescue
+        logger.warn "mailchimp-API: could not remove user id=#{@user.id} from Mailchimp"
       end
 
       

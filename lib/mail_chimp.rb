@@ -4,8 +4,8 @@ module MailChimp
       def self.included(target)
           target.class_eval do
               after_filter :create_in_mailchimp, :only => [:create]
-              update.after :update_in_mailchimp
-              destroy.after :remove_from_mailchimp
+              after_filter :update_in_mailchimp, :only => [:update]
+              destroy.after :remove_from_mailchimp # can use r_c?
           end
       end
 
@@ -37,20 +37,20 @@ module MailChimp
       # spree/authlogic update the user's timestamps. So need to detect if
       # subscription checkbox is set, that means it was the user editing form.
       def update_in_mailchimp
-        self.class.benchmark "Updating contact in MailChimp" do
 
-        unless params[:is_mail_list_subscriber].nil? # works if not checked ?
-            hom = Hominid::Base.new({:api_key => mc_api_key})
+        if params && params[:user] && params[:user][:is_mail_list_subscriber] # works if not checked because 0 is true
 
-            if self.is_mail_list_subscriber && !self.mailchimp_subscriber_id.blank?
-                hom.update_member(mc_list_id, self.email, {:EMAIL => self.email})
-            elsif self.is_mail_list_subscriber && self.mailchimp_subscriber_id.nil?
+            if params[:user][:is_mail_list_subscriber].to_i.equal?(1) && !@user.mailchimp_subscriber_id.blank?
+                hom = Hominid::Base.new({:api_key => mc_api_key})
+                User.benchmark "Updating mailchimp subscriber (list id=#{mc_list_id}, member=#{@user.mailchimp_subscriber_id})" do
+                    hom.update_member(mc_list_id, @user.mailchimp_subscriber_id, {:EMAIL => @user.email})
+                end
+            elsif params[:is_mail_list_subscriber].to_i.equal?(1) && @user.mailchimp_subscriber_id.blank?
                 create_in_mailchimp 
-            elsif !self.is_mail_list_subscriber && !self.mailchimp_subscriber_id.blank?
+            elsif params[:is_mail_list_subscriber].to_i.zero? && !@user.mailchimp_subscriber_id.blank?
                 remove_from_mailchimp
             end
 
-          end
         end
       #rescue
         #logger.warn "mailchimp-API: Falhou ao atualizar o contato #{id} no mailchimp"
@@ -59,9 +59,11 @@ module MailChimp
       def remove_from_mailchimp 
         hom = Hominid::Base.new({:api_key => mc_api_key})
 
-        self.class.benchmark "removing subscriber from mailchimp" do
-            if self.mailchimp_subscriber_id
-                hom.unsubscribe(mc_list_id, self.email)
+        if @user.mailchimp_subscriber_id
+            @user.mailchimp_subscriber_id = nil
+            @user.save
+            User.benchmark "removing subscriber #{@user.mailchimp_subscriber_id} from mailchimp" do
+                hom.unsubscribe(mc_list_id, @user.email)
             end
         end
       #rescue

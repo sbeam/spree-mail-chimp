@@ -14,10 +14,12 @@ var SpreeMailchimpApp = {
   },
 
   getBusy : function( fn ) {
+          $("body").css('cursor', 'progress');
           $("#busy_indicator").fadeIn('fast', fn);
   },
 
   getNotBusy : function() {
+          $("body").css('cursor', 'default');
           $("#busy_indicator").fadeOut('fast');
   }
 

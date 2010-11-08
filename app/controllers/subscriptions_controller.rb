@@ -25,7 +25,6 @@ class SubscriptionsController < Spree::BaseController
                         hominid.subscribe(Spree::Config.get(:mailchimp_list_id), params[:email], Spree::Config.get(:mailchimp_subscription_opts))
                     end
                 rescue Hominid::ValidationError => e
-                    logger.debug "MUST BE HERE"
                     @errors << t('invalid_address')
                 end
             end

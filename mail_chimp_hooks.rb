@@ -5,7 +5,7 @@ class MailChimpHooks < Spree::ThemeSupport::HookListener
 
   # Add js for ajaxy subscriptions from footer or wherever
   insert_after :inside_head do
-    "<%= javascript_include_tag 'mailchimp_subscribe' %>"
+    "<%= javascript_include_tag 'jquery.simplemodal.1.4.min.js','mailchimp_subscribe' %>"
   end
 
 

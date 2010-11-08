@@ -6,15 +6,15 @@ module MailChimp
               after_filter :create_in_mailchimp, :only => [:create]
               after_filter :update_in_mailchimp, :only => [:update]
               destroy.after :remove_from_mailchimp # can use r_c?
+
+              def hominid
+                  @hominid ||= Hominid::Base.new({:api_key => Spree::Config.get(:mailchimp_api_key)})
+              end
+
+              def mc_list_id
+                  Spree::Config.get(:mailchimp_list_id)
+              end
           end
-      end
-
-      def self.hominid
-          @hominid ||= Hominid::Base.new({:api_key => Spree::Config.get(:mailchimp_api_key)})
-      end
-
-      def self.mc_list_id
-          Spree::Config.get(:mailchimp_list_id)
       end
 
       def create_in_mailchimp

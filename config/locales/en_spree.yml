@@ -3,3 +3,5 @@ en:
   do_subscribe_to_our_mailing_list: Subscribe to our mailing list?
   enter_your_email: Enter your email to receive special offers!
   submit: Submit
+  that_address_is_already_subscribed: You are already subscribed to our mailing list.
+  something_went_wrong: Something went wrong when trying to add your subscription. Please try again later.

@@ -1,0 +1,20 @@
+<% flash[:notice] = nil %>
+
+var modal_opts = { closeHTML : '<div>[x] CLOSE</div>', 
+
+      containerCss : { height:80 },
+
+      onOpen: function (dialog) {
+                        dialog.overlay.fadeIn('fast', function() {
+                            dialog.data.show();
+                            dialog.container.fadeIn('fast');
+                        });
+              }
+    };
+
+<% if @errors.empty? %>
+    $.modal('<div id="modal-notice"><h1><%= t("you_have_been_subscribed") %></h1></div>', modal_opts);
+<% else %>
+    $.modal('<div id="modal-notice"><h1>ERROR:</h1> <%= @errors.join(' / ') %></div>', modal_opts);
+<% end %>
+

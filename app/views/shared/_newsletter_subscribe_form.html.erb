@@ -1,4 +1,5 @@
-          <% form_for :subscriber, :url => '/newsletter' do |f| %>
+      <div id="mailchimp_subscribe_wrap">
+        <% form_for :user, :url => :subscriptions do |f| %>
             <table>
               <tr>
                 <td>
@@ -10,3 +11,4 @@
               </tr>
             </table>
           <% end %>
+      </div>

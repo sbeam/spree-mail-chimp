@@ -8,7 +8,9 @@ class SubscriptionsController < Spree::BaseController
         @errors = []
 
         if params[:email].blank?
-            @errors << "missing email"
+            @errors << t('missing_email')
+        elsif params[:email] !~ /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
+            @errors << t('invalid_email_address')
         else
             begin
                 self.class.benchmark "Checking if address exists and/or is valid" do
@@ -25,7 +27,7 @@ class SubscriptionsController < Spree::BaseController
                         hominid.subscribe(Spree::Config.get(:mailchimp_list_id), params[:email], Spree::Config.get(:mailchimp_subscription_opts))
                     end
                 rescue Hominid::ValidationError => e
-                    @errors << t('invalid_address')
+                    @errors << t('invalid_email_address')
                 end
             end
         end

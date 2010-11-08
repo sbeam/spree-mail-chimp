@@ -18,6 +18,8 @@ h3. Installation ###
 
 <pre><code>
 ./script/extension install git://github.com/sbeam/spree-mail-chimp.git
+
+rake db:migrate
 </code> </pre>
 
 h3. Configuration ###

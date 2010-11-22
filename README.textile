@@ -17,7 +17,13 @@ The SimpleModal plugin is used in the EJB to pop up a confirmation or error aler
 h3. Installation ###
 
 <pre><code>
-./script/extension install git://github.com/sbeam/spree-mail-chimp.git
+./script/extension install git://github.com/bzt/spree_mail_chimp.git
+
+rake mail_chimp:install
+
+add path to gemfile
+
+bundle install
 
 rake db:migrate
 </code> </pre>
@@ -28,26 +34,26 @@ Look at <code>config/initializers/mail_chimp_settings.rb</code> - copy this to y
 
 h3. Changes ###
 
-Version 1.0 - released 8 Nov 2010
+Version 1.0.1 - released 21 Nov 2010
 
 h3. Requirements ###
 
-Spree =~ 0.11.99 (not 0.30, yet)
+Spree >= 0.3.0
 hominid >= 2.2.0 http://rubygems.org/gems/hominid
 
 Also uses the jQuery SimpleModal plugin, included.
 
 h3. Credits ###
 
-Authored by Sam Beam sbeam@onsetcorps.net
+Authored by bzt bastian.schnurle@silberstein.de
 
-Inspired originally by Mailee Spree https://github.com/softa/mailee_spree
+Inspired originally by https://github.com/softa/mailee_spree
 
 includes SimpleModal http://www.ericmmartin.com/projects/simplemodal/
 
 h3. TODO ###
 
-* Make Rails 3/Spree 0.30 compat
+* make subscribe_to_newsletter_field work
 * Export new orders to Mailchimp for full CRM gnarliness
 * Utility to export existing users to Mailchimp
 * Add admin controller to view lists and subscriptions

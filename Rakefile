@@ -1,41 +1,31 @@
+require File.expand_path('../../config/application', __FILE__)
+
+require 'rubygems'
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rake/packagetask'
+require 'rake/gempackagetask'
 
-desc 'Default: run unit tests.'
-task :default => :test
+spec = eval(File.read('mail_chimp.gemspec'))
 
-desc 'Test the mail_chimp extension.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
+Rake::GemPackageTask.new(spec) do |p|
+  p.gem_spec = spec
 end
 
-namespace :test do
-  desc 'Functional test the mail_chimp extension.'
-  Rake::TestTask.new(:functionals) do |t|
-    t.libs << 'lib'
-    t.pattern = 'test/functional/*_test.rb'
-    t.verbose = true
-  end
-
-  desc 'Unit test the mail_chimp extension.'
-  Rake::TestTask.new(:units) do |t|
-    t.libs << 'lib'
-    t.pattern = 'test/unit/*_test.rb'
-    t.verbose = true
-  end
+desc "Release to gemcutter"
+task :release => :package do
+  require 'rake/gemcutter'
+  Rake::Gemcutter::Tasks.new(spec).define
+  Rake::Task['gem:push'].invoke
 end
 
-desc 'Generate documentation for the mail_chimp extension.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'MailChimpExtension'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.markdown')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+desc "Default Task"
+task :default => [:spec]
 
-# Load any custom rakefiles for extension
-Dir[File.dirname(__FILE__) + '/lib/tasks/*.rake'].sort.each { |f| require f }
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new
+
+# require 'cucumber/rake/task'
+# Cucumber::Rake::Task.new do |t|
+#   t.cucumber_opts = %w{--format pretty}
+# end

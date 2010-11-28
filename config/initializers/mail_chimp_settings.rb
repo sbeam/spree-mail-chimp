@@ -1,6 +1,6 @@
 if Spree::Config.instance 
-    Spree::Config.set(:mailchimp_api_key => '')
-    Spree::Config.set(:mailchimp_list_id => '')
+    #Spree::Config.set(:mailchimp_api_key => '')
+    #Spree::Config.set(:mailchimp_list_id => '')
     Spree::Config.set(:mailchimp_subscription_opts => {:email_type => 'html', :secure => true, :double_opt_in => true})
 end 
 

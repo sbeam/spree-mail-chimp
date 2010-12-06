@@ -14,7 +14,7 @@ Also includes a partial at <code>shared/newsletter_subscribe_form</code> that ca
 
 The SimpleModal plugin is used in the EJB to pop up a confirmation or error alert (because you won't be satisfied with a simple alert() box)
 
-h3. Installation ###
+h3. Installation 
 
 Add to project's Gemfile:
 <pre><code>
@@ -30,7 +30,7 @@ bundle install
 rake db:migrate
 </code> </pre>
 
-h3. Configuration ###
+h3. Configuration 
 
 Add your Mail Chimp API Key and the List ID of the Subscription list you'd like to use to your environment:
 <pre><code>
@@ -38,22 +38,40 @@ if Spree::Config.instance
     Spree::Config.set(:mailchimp_api_key => '29fac3ec027ebxxxxxxxxxxxxxx-us2')
     Spree::Config.set(:mailchimp_list_id => '6ec957aa45')
     Spree::Config.set(:mailchimp_subscription_opts => {:email_type => 'html'})
+    # map MC merge id's to User methods if applicable
+    Spree::Config.set(:mailchimp_merge_user_attribs => {:AGE => :age, :LANG => :pref_language})
 end 
 </code> </pre>
 
-h3. Changes ###
+here are the default subscription opts that hominid uses, override in :mailchimp_subscription_opts as needed:
+<pre><code>
+        :double_opt_in => false,
+        :merge_tags => {},
+        :replace_interests => true,
+        :secure => false,
+        :send_goodbye => false,
+        :send_notify => false,
+        :send_welcome => false,
+        :timeout => nil,
+        :update_existing => true
+</code> </pre>
+
+Using the :mailchimp_merge_user_attribs config hash, you can also have any callable methods on User sent
+to the MC list. These are mapped to the MC "Merge Vars" which you define in your MC list admin console. 
+
+h3. Changes 
 
 Version 2.0.0 - released 6 Dec 2010 - Spree 0.30-stable
 Version 1.0.1 - released 21 Nov 2010 - Spree 0.11-stable
 
-h3. Requirements ###
+h3. Requirements 
 
 Spree >= 0.3.0
 hominid >= 2.2.0 http://rubygems.org/gems/hominid
 
 Also uses the jQuery SimpleModal plugin, included.
 
-h3. Credits ###
+h3. Credits 
 
 Authored by Sam Beam sbeam@onsetcorps.net
 Migrated to Spree 0.30 by bzt bastian.schnurle@silberstein.de
@@ -62,13 +80,12 @@ Inspired originally by https://github.com/softa/mailee_spree
 
 includes SimpleModal http://www.ericmmartin.com/projects/simplemodal/
 
-h3. TODO ###
+h3. TODO 
 
 * make subscribe_to_newsletter_field work
 * Export new orders to Mailchimp for full CRM gnarliness
 * Utility to export existing users to Mailchimp
 * Add admin controller to view lists and subscriptions
 * Allow for multiple lists
-* Make modal dialog play nicer with other css/layout requirements
 * Tests :/
 

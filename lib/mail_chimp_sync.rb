@@ -1,4 +1,4 @@
-module MailChimpSync #< Spree::BaseController
+module MailChimpSync 
   module Sync
 
       def self.included(target)
@@ -20,8 +20,20 @@ module MailChimpSync #< Spree::BaseController
       def create_in_mailchimp
           return unless @user.is_mail_list_subscriber
 
+          merge_vars = {}
+          if Spree::Config.get(:mailchimp_merge_user_attribs)
+            mailchimp_merge_user_attribs = YAML::load Spree::Config.get(:mailchimp_merge_user_attribs)
+            mailchimp_merge_user_attribs.each_pair do |mc_prop, meth|
+              merge_vars[mc_prop] = @user.send(meth) if @user.respond_to? meth
+            end
+          end
+
+          if subscription_opts = Spree::Config.get(:mailchimp_subscription_opts)
+              subscription_opts = YAML::load subscription_opts ## config gives us yaml :/
+          end
+          
           User.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
-              hominid.subscribe(mc_list_id, @user.email, Spree::Config.get(:mailchimp_subscription_opts))
+              hominid.subscribe(mc_list_id, @user.email, merge_vars, subscription_opts)
           end
           logger.debug "Fetching new mailchimp subscriber info"
           mc_member = hominid.member_info(mc_list_id, @user.email)

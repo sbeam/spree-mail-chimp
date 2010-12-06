@@ -8,3 +8,14 @@ en:
   invalid_email_address: Please enter your full email address, e.g. some.one@example.com
   you_have_been_subscribed: You have been subscribed to our mailing list. Please check your email soon for a confirmation. Thank you!
   missing_email: There was no email address given.
+  mailchimp_settings: Mail Chimp Settings
+  mailchimp_settings_description: API Keys and options for Mail Chimp integration
+  mailchimp_list_id: List ID
+  mailchimp_api_key: API Key
+  mailchimp_send_welcome: Send Welcome email
+  mailchimp_send_notify: Send list owner notification on subscribe
+  mailchimp_double_opt_in: Double opt-in
+  mailchimp_merge_vars: User attribs to send with subscription
+  mailchimp_merge_vars_help: Comma separated list of callable methods on User, corresponding to Merge Vars setup in list admin. e.g. age,interests,location
+  mailchimp_keys: Keys
+  preferences: Preferences

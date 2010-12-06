@@ -11,8 +11,8 @@ class MailChimpHooks < Spree::ThemeSupport::HookListener
     insert_after :admin_configurations_menu do
         %[
           <tr>
-            <td><%= link_to t("mail_chimp_settings"), admin_mail_chimp_settings_path %></td>
-            <td><%= t("mail_chimp_settings_description") %></td>
+            <td><%= link_to t("mailchimp_settings"), admin_mail_chimp_settings_path %></td>
+            <td><%= t("mailchimp_settings_description") %></td>
           </tr>
         ] 
     end

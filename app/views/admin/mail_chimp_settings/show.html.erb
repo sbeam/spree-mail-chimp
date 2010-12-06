@@ -1,6 +1,6 @@
 <%= render :partial => 'admin/shared/configuration_menu' %>
 
-<h1><%= t('mail_chimp_settings') %></h1>
+<h1><%= t('mailchimp_settings') %></h1>
 
 <table>
   <tr>
@@ -19,7 +19,7 @@
 <% unless Spree::Config[:mailchimp_merge_vars].blank? %>
     <h4><%= t("mailchimp_merge_vars") %></h4>
     <p>
-    <%= Spree::Config[:mailchimp_merge_vars].gsub(/,/, '<br >') %>
+    <%= raw Spree::Config[:mailchimp_merge_vars].gsub(/,/, '<br >') %>
     </p>
 <% end %>
 

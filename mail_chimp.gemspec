@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'mail_chimp'
-  s.version     = '0.0.1'
-  s.summary     = 'Add gem summary here'
+  s.version     = '1.3.0'
+  s.summary     = 'Mail Chimp subscriptions for your Spree store using hominid'
   #s.description = 'Add (optional) gem description here'
   s.required_ruby_version = '>= 1.8.7'
 
-  s.author            = 'bzt'
-  # s.email             = ''
-  # s.homepage          = ''
+  s.author            = 'Sam Beam'
+  s.email             = 'sbeam@onsetcorps.net'
+  s.homepage          = 'https://github.com/sbeam/spree-mail-chimp'
   # s.rubyforge_project = ''
 
   s.files        = Dir['README.textile', 'LICENSE', 'lib/**/*', 'app/**/*']

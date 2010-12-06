@@ -1,0 +1,21 @@
+/* basic styles for simplemodal dialog to match Spree sample store */
+.simplemodal-overlay {
+    background: #333;
+}
+.simplemodal-container {
+    border: 2px solid #162f54;
+    background: #fff;
+    width: 45%;
+}
+.simplemodal-close {
+    border-bottom: 1px solid #fff;
+    text-align: right;
+    background: #162f54;
+    color: #fff;
+}
+.simplemodal-container h1 {
+    font-size: 110%;
+}
+.simplemodal-data {
+    padding: 0.7em;
+}

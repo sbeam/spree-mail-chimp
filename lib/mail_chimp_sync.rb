@@ -1,4 +1,5 @@
 module MailChimpSync 
+
   module Sync
 
       def self.included(target)

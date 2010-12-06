@@ -9,9 +9,6 @@ module MailChimp
       config.autoload_paths += %W(#{config.root}/lib)
 
       def self.activate
-          Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
-              Rails.env.production? ? require(c) : load(c)
-          end
 
           Spree::BaseController.class_eval do
               helper MailChimpHelper
@@ -22,6 +19,13 @@ module MailChimp
           User.class_eval do 
               attr_accessible :is_mail_list_subscriber
           end 
+
+          AppConfiguration.class_eval do
+              preference :mailchimp_double_opt_in, :boolean, :default => false
+              preference :mailchimp_send_welcome, :boolean, :default => false
+              preference :mailchimp_send_notify, :boolean, :default => false
+              preference :mailchimp_merge_vars, :string, :default => ''
+          end
 
       end
     

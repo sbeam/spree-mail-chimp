@@ -11,8 +11,8 @@ class MailChimpExtensionTest < Test::Unit::TestCase
   end
   
   def test_initialization
-    assert_equal File.join(File.expand_path(Rails.root), 'vendor', 'extensions', 'mail_chimp'), MailChimpExtension.root
-    assert_equal 'Mail Chimp', MailChimpExtension.extension_name
+    assert_equal File.join(File.expand_path(Rails.root), 'spree_mail_chimp'), MailChimp.root
+    #assert_equal 'Mail Chimp', MailChimp.name
   end
   
 end

@@ -5,7 +5,7 @@ unless defined? SPREE_ROOT
   case
   when ENV["SPREE_ENV_FILE"]
     require File.dirname(ENV["SPREE_ENV_FILE"]) + "/boot"
-  when File.dirname(__FILE__) =~ %r{vendor/spree/vendor/extensions}
+  when File.dirname(__FILE__) =~ %r{spree_mail_chimp}
     require "#{File.expand_path(File.dirname(__FILE__) + "/../../../../../../")}/config/boot"
   else
     require "#{File.expand_path(File.dirname(__FILE__) + "/../../../../")}/config/boot"

@@ -1,6 +1,4 @@
 module MailChimpHelper
-
-
-    def subscribe addr
+ def subscribe addr
     end
 end

@@ -20,30 +20,18 @@ module MailChimpSync
 
       def create_in_mailchimp
           return unless @user.is_mail_list_subscriber
-
-          merge_vars = {}
-          if Spree::Config.get(:mailchimp_merge_user_attribs)
-            mailchimp_merge_user_attribs = YAML::load Spree::Config.get(:mailchimp_merge_user_attribs)
-            mailchimp_merge_user_attribs.each_pair do |mc_prop, meth|
-              merge_vars[mc_prop] = @user.send(meth) if @user.respond_to? meth
-            end
-          end
-
-          if subscription_opts = Spree::Config.get(:mailchimp_subscription_opts)
-              subscription_opts = YAML::load subscription_opts ## config gives us yaml :/
-          end
           
           User.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
-              hominid.subscribe(mc_list_id, @user.email, merge_vars, subscription_opts)
+              hominid.subscribe(mc_list_id, @user.email, mc_merge_vars, MailChimpSync::Sync::mc_subscription_opts)
           end
           logger.debug "Fetching new mailchimp subscriber info"
           mc_member = hominid.member_info(mc_list_id, @user.email)
           logger.debug mc_member.inspect
           @user.mailchimp_subscriber_id = mc_member['id']
           @user.save # this probably isn't kosher in an after-filter method
-      rescue
+      rescue Hominid::APIError => e
           # TODO alert someone there is a problem with mailchimp
-         logger.warn "MailChimp::Sync: Failed to create contact #{id} in mailchimp: #{$1}"
+         logger.warn "MailChimp::Sync: Failed to create contact #{id} in mailchimp: #{e.message}"
       end
 
       # run before_update, but we don't want to do this everytime
@@ -64,7 +52,7 @@ module MailChimpSync
             end
 
         end
-      rescue
+      rescue Hominid::APIError => e
        logger.warn "MailChimp::Sync: Failed to update mailchimp record for user id=#{@user.id}"
       end
 
@@ -77,10 +65,30 @@ module MailChimpSync
                 hominid.unsubscribe(mc_list_id, @user.email)
             end
         end
-      rescue
+      rescue Hominid::APIError => e
         logger.warn "MailChimp::Sync: could not remove user id=#{@user.id} from Mailchimp"
       end
 
       
+      private
+
+      def mc_merge_vars
+          merge_vars = {}
+          if mailchimp_merge_user_attribs = Spree::Config.get(:mailchimp_merge_vars)
+            mailchimp_merge_user_attribs.split(',').each do |meth|
+              merge_vars[meth.upcase] = @user.send(meth.downcase) if @user.respond_to? meth.downcase
+            end
+          end
+          merge_vars
+      end
+
+      def self.mc_subscription_opts
+          options = {}
+          [:mailchimp_double_opt_in, :mailchimp_send_welcome, :mailchimp_send_notify].each do |opt|
+              options[opt.to_s.gsub(/^mailchimp_/,'')] = Spree::Config.get(opt)
+          end
+          options
+      end
+
     end
 end

@@ -32,32 +32,11 @@ rake db:migrate
 
 h3. Configuration 
 
-Add your Mail Chimp API Key and the List ID of the Subscription list you'd like to use to your environment:
-<pre><code>
-if Spree::Config.instance 
-    Spree::Config.set(:mailchimp_api_key => '29fac3ec027ebxxxxxxxxxxxxxx-us2')
-    Spree::Config.set(:mailchimp_list_id => '6ec957aa45')
-    Spree::Config.set(:mailchimp_subscription_opts => {:email_type => 'html'})
-    # map MC merge id's to User methods if applicable
-    Spree::Config.set(:mailchimp_merge_user_attribs => {:AGE => :age, :LANG => :pref_language})
-end 
-</code> </pre>
+See the Mail Chimp Settings forms in the Admin under Configuration.
 
-here are the default subscription opts that hominid uses, override in :mailchimp_subscription_opts as needed:
-<pre><code>
-        :double_opt_in => false,
-        :merge_tags => {},
-        :replace_interests => true,
-        :secure => false,
-        :send_goodbye => false,
-        :send_notify => false,
-        :send_welcome => false,
-        :timeout => nil,
-        :update_existing => true
-</code> </pre>
-
-Using the :mailchimp_merge_user_attribs config hash, you can also have any callable methods on User sent
-to the MC list. These are mapped to the MC "Merge Vars" which you define in your MC list admin console. 
+Note, using Mail Chimp "Merge Vars", you can have any callable methods on User sent
+to the MC list, mapped to indentically named (but uppercased) fields in the MC list admin console. 
+Unfortunately these are only sent at the time the subscription is created, so there isn't much available.
 
 h3. Changes 
 
@@ -83,6 +62,7 @@ includes SimpleModal http://www.ericmmartin.com/projects/simplemodal/
 h3. TODO 
 
 * make subscribe_to_newsletter_field work
+* Send user address info to MC via merge vars, when address is given
 * Export new orders to Mailchimp for full CRM gnarliness
 * Utility to export existing users to Mailchimp
 * Add admin controller to view lists and subscriptions

@@ -16,12 +16,14 @@ The SimpleModal plugin is used in the EJB to pop up a confirmation or error aler
 
 h3. Installation ###
 
+Add to project's Gemfile:
 <pre><code>
-./script/extension install git://github.com/bzt/spree_mail_chimp.git
+gem 'mail_chimp', '>=1.3', :git => 'https://sbeam@github.com/sbeam/spree-mail-chimp.git'
+</code> </pre>
 
+Run from project's root:
+<pre><code>
 rake mail_chimp:install
-
-add path to gemfile
 
 bundle install
 
@@ -30,11 +32,19 @@ rake db:migrate
 
 h3. Configuration ###
 
-Look at <code>config/initializers/mail_chimp_settings.rb</code> - copy this to your site extension and add your own MailChimp API key and list ids.
+Add your Mail Chimp API Key and the List ID of the Subscription list you'd like to use to your environment:
+<pre><code>
+if Spree::Config.instance 
+    Spree::Config.set(:mailchimp_api_key => '29fac3ec027ebxxxxxxxxxxxxxx-us2')
+    Spree::Config.set(:mailchimp_list_id => '6ec957aa45')
+    Spree::Config.set(:mailchimp_subscription_opts => {:email_type => 'html'})
+end 
+</code> </pre>
 
 h3. Changes ###
 
-Version 1.0.1 - released 21 Nov 2010
+Version 2.0.0 - released 6 Dec 2010 - Spree 0.30-stable
+Version 1.0.1 - released 21 Nov 2010 - Spree 0.11-stable
 
 h3. Requirements ###
 
@@ -45,7 +55,8 @@ Also uses the jQuery SimpleModal plugin, included.
 
 h3. Credits ###
 
-Authored by bzt bastian.schnurle@silberstein.de
+Authored by Sam Beam sbeam@onsetcorps.net
+Migrated to Spree 0.30 by bzt bastian.schnurle@silberstein.de
 
 Inspired originally by https://github.com/softa/mailee_spree
 

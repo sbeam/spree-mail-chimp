@@ -1,0 +1,60 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "jquery.validate.min" %>
+<% end %>
+
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1><%= t('mail_chimp_settings') %></h1>
+
+<% form_tag(admin_mail_chimp_settings_path, :method => :put, :id => :mail_chimp_settings_form) do -%>
+
+  <div class="yui-g">
+    <div class="yui-u first">
+      <fieldset>
+        <legend><%= t('mailchimp_keys') %></legend>
+        <p>
+          <label><%= t('mailchimp_api_key') %></label><br />
+          <%= text_field_tag('preferences[mailchimp_api_key]', Spree::Config[:mailchimp_api_key], :size=>46, :maxlength => 256, :class => 'email') %>
+        </p>
+        <p>
+          <label><%= t('mailchimp_list_id') %></label><br />
+          <%= text_field_tag('preferences[mailchimp_list_id]', Spree::Config[:mailchimp_list_id], :maxlength => 256, :class => 'email') %>
+        </p>
+      </fieldset>
+
+      <fieldset>
+        <legend><%= t('preferences') %></legend>
+        <p>
+        <label>
+            <input name="preferences[mailchimp_double_opt_in]" type="hidden" value="0" />
+            <%= check_box_tag('preferences[mailchimp_double_opt_in]', "1", Spree::Config[:mailchimp_double_opt_in]) %>&nbsp;<%= t('mailchimp_double_opt_in') %>&nbsp;</label>
+        </p>
+        <p>
+        <label>
+            <input name="preferences[mailchimp_send_welcome]" type="hidden" value="0" />
+            <%= check_box_tag('preferences[mailchimp_send_welcome]', "1", Spree::Config[:mailchimp_send_welcome]) %>&nbsp;<%= t('mailchimp_send_welcome') %>&nbsp;</label>
+        </p>
+        <p>
+        <label>
+            <input name="preferences[mailchimp_send_notify]" type="hidden" value="0" />
+            <%= check_box_tag('preferences[mailchimp_send_notify]', "1", Spree::Config[:mailchimp_send_notify]) %>&nbsp;<%= t('mailchimp_send_notify') %>&nbsp;</label>
+        </p>
+        <p>
+        <label>&nbsp;<%= t('mailchimp_merge_vars') %>&nbsp;<br /><%= text_field_tag('preferences[mailchimp_merge_vars]', Spree::Config[:mailchimp_merge_vars], :size=>44) %></label>
+        <br />
+        <span class="note"><%= t('mailchimp_merge_vars_help') %></span>
+        </p>
+      </fieldset>
+
+    </div>
+  </div>
+
+  <p class="form-buttons"><%= button t('save_preferences') %></p>
+
+	<script>
+    <%# TODO add validation for email list rather than simple email %>
+    $(document).ready(function(){ 
+      $("#inquiries_settings_form").validate(); 
+    });
+  </script>
+<% end -%>

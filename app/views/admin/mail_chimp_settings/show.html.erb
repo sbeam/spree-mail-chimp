@@ -1,0 +1,26 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1><%= t('mail_chimp_settings') %></h1>
+
+<table>
+  <tr>
+    <th scope="row"><%= t("mailchimp_api_key") %>:</th> 
+    <td><%= Spree::Config[:mailchimp_api_key] %></td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("mailchimp_list_id") %>:</th> 
+    <td><%= Spree::Config[:mailchimp_list_id] %></td>
+  </tr>
+</table>
+
+<h4><%= t("mailchimp_double_opt_in") %>: <%= Spree::Config[:mailchimp_double_opt_in]? t('yes') : t('no') %></h4>
+<h4><%= t("mailchimp_send_welcome") %>: <%= Spree::Config[:mailchimp_send_welcome]? t('yes') : t('no') %></h4>
+<h4><%= t("mailchimp_send_notify") %>: <%= Spree::Config[:mailchimp_send_notify]? t('yes') : t('no') %></h4>
+<% unless Spree::Config[:mailchimp_merge_vars].blank? %>
+    <h4><%= t("mailchimp_merge_vars") %></h4>
+    <p>
+    <%= Spree::Config[:mailchimp_merge_vars].gsub(/,/, '<br >') %>
+    </p>
+<% end %>
+
+<p><%= link_to_with_icon 'edit', t("edit"), edit_admin_mail_chimp_settings_path %></p>

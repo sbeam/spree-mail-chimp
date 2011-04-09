@@ -5,7 +5,7 @@ pl:
   subscribe: Subskrybuj
   that_address_is_already_subscribed: Już jesteś dodany do tej listy.
   something_went_wrong: Coś nieprzewidzianego stało się podczas dodawania do listy. Spróbuj pózniej.
-  invalid_email_address: Podaj swój adres email, na przykład: some.one@example.com
+  invalid_email_address: "Podaj swój adres email, na przykład: some.one@example.com"
   you_have_been_subscribed: Zostałeś dodany do Newslettera. Sprawdź skrzynkę w celu potwierdzenia! Dziękujemy!
   missing_email: Nie podano adresu.
   mailchimp_settings: Mail Chimp - ustawienia.

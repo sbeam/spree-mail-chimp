@@ -1,5 +1,7 @@
 ---
 en:
+  modal_error: Error
+  modal_close: Close
   do_subscribe_to_our_mailing_list: Subscribe to our mailing list?
   enter_your_email: Subscribe to our Newsletter!
   subscribe: Subscribe

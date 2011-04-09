@@ -1,6 +1,6 @@
 <% flash[:notice] = nil %>
 
-var modal_opts = { closeHTML : '<div>[x] CLOSE</div>', 
+var modal_opts = { closeHTML : '<div>[x] <%= t("modal_close") %></div>',
 
       containerCss : { height:80 },
 
@@ -15,6 +15,6 @@ var modal_opts = { closeHTML : '<div>[x] CLOSE</div>',
 <% if @errors.empty? %>
     $.modal('<div id="modal-notice"><h1><%= t("you_have_been_subscribed") %></h1></div>', modal_opts);
 <% else %>
-    $.modal('<div id="modal-notice"><h1>ERROR:</h1> <%= @errors.join(' / ') %></div>', modal_opts);
+    $.modal('<div id="modal-notice"><h1><%= t("modal_error") %>:</h1> <%= @errors.join(' / ') %></div>', modal_opts);
 <% end %>
 

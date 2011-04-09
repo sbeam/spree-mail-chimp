@@ -1,5 +1,7 @@
 ---
 pl:
+  modal_error: Problem
+  modal_close: Zamknij
   do_subscribe_to_our_mailing_list: Dopisać Cie do Newslettera??
   enter_your_email: Zapisz się do Newslettera!
   subscribe: Subskrybuj

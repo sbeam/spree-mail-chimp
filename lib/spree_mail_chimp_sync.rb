@@ -21,7 +21,7 @@ module SpreeMailChimpSync
           return unless @user.is_mail_list_subscriber
           
           User.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
-              hominid.subscribe(mc_list_id, @user.email, mc_merge_vars, MailChimpSync::Sync::mc_subscription_opts)
+              hominid.subscribe(mc_list_id, @user.email, mc_merge_vars, SpreeMailChimpSync::Sync::mc_subscription_opts)
           end
           logger.debug "Fetching new mailchimp subscriber info"
           mc_member = hominid.member_info(mc_list_id, @user.email)

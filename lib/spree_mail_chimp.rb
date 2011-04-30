@@ -13,7 +13,7 @@ module SpreeMailChimp
         helper MailChimpHelper
       end
 
-      UsersController.send(:include, MailChimpSync::Sync)
+      UsersController.send(:include, SpreeMailChimpSync::Sync)
 
       User.class_eval do
         attr_accessible :is_mail_list_subscriber

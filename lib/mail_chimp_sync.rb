@@ -6,7 +6,7 @@ module MailChimpSync
           target.class_eval do
               after_filter :create_in_mailchimp, :only => [:create]
               after_filter :update_in_mailchimp, :only => [:update]
-              destroy.after :remove_from_mailchimp # can use r_c?
+              after_filter :remove_from_mailchimp, :only => [:destroy]
 
               def hominid
                   @hominid ||= Hominid::Base.new({:api_key => Spree::Config.get(:mailchimp_api_key)})

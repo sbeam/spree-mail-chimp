@@ -1,4 +1,4 @@
-class MailChimpHooks < Spree::ThemeSupport::HookListener
+class SpreeMailChimpHooks < Spree::ThemeSupport::HookListener
 	insert_after :signup_below_password_fields, 'users/subscribe_to_newsletter_field'
 	insert_after :footer_left, 'shared/newsletter_subscribe_form'
 

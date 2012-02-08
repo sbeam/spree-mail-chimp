@@ -1,4 +1,4 @@
-module MailChimpSync 
+module SpreeMailChimpSync
 
   module Sync
 

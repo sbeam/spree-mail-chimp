@@ -25,7 +25,7 @@ class SubscriptionsController < Spree::BaseController
             else
                 begin
                     self.class.benchmark "Adding mailchimp subscriber" do
-                        hominid.subscribe(Spree::Config.get(:mailchimp_list_id), params[:email], {}, MailChimpSync::Sync::mc_subscription_opts)
+                        hominid.subscribe(Spree::Config.get(:mailchimp_list_id), params[:email], {}, SpreeMailChimpSync::Sync::mc_subscription_opts)
                     end
                 rescue Hominid::ValidationError => e
                     @errors << t('invalid_email_address')

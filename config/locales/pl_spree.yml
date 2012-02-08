@@ -1,0 +1,23 @@
+---
+pl:
+  modal_error: Problem
+  modal_close: Zamknij
+  do_subscribe_to_our_mailing_list: Dopisać Cie do Newslettera??
+  enter_your_email: Zapisz się do Newslettera!
+  subscribe: Subskrybuj Newsletter
+  that_address_is_already_subscribed: Już jesteś dodany do tej listy.
+  something_went_wrong: Coś nieprzewidzianego stało się podczas dodawania do listy. Spróbuj pózniej.
+  invalid_email_address: "Podaj swój adres email, na przykład: some.one@example.com"
+  you_have_been_subscribed: Zostałeś dodany do Newslettera. Sprawdź skrzynkę w celu potwierdzenia! Dziękujemy!
+  missing_email: Nie podano adresu.
+  mailchimp_settings: Mail Chimp - ustawienia.
+  mailchimp_settings_description: Klucze API
+  mailchimp_list_id: ID listy
+  mailchimp_api_key: Klucze API
+  mailchimp_send_welcome: Wysyłaj email powitalny
+  mailchimp_send_notify: Wysyłaj powiadomienie o nowym subskrybencie
+  mailchimp_double_opt_in: "Potwierdzenia na email (Double opt-in)"
+  mailchimp_merge_vars: Atrybuty klasy User do wysłania
+  mailchimp_merge_vars_help: CSV list of możliwych metod do wywyłania na klasie User
+  mailchimp_keys: klucze
+  preferences: Preferencje

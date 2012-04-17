@@ -9,10 +9,6 @@ module SpreeMailChimp
         Rails.application.config.cache_classes ? require(c) : load(c)
       end
 
-      Spree::BaseController.class_eval do
-        helper MailChimpHelper
-      end
-
       UsersController.send(:include, MailChimpSync::Sync)
 
       User.class_eval do

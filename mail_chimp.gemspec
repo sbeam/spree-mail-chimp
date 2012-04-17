@@ -9,7 +9,6 @@ Gem::Specification.new do |s|
   s.author            = 'Sam Beam'
   s.email             = 'sbeam@onsetcorps.net'
   s.homepage          = 'https://github.com/sbeam/spree-mail-chimp'
-  # s.rubyforge_project = ''
 
   s.files        = Dir['README.textile', 'LICENSE', 'lib/**/*', 'app/**/*']
   s.require_path = 'lib'

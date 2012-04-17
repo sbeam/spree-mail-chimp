@@ -1,14 +1,14 @@
-      <div id="mailchimp_subscribe_wrap">
-        <% form_for :user, :url => :subscriptions do |f| %>
-            <table>
-              <tr>
-                <td>
-                  <%= text_field_tag :email, t('enter_your_email'), :class=>'email', :id=>'subscribe_email' %>
-                </td>
-                <td>
-                  <%= submit_tag t('subscribe'), :id => 'op_subscribe' %>
-                </td>
-              </tr>
-            </table>
-          <% end %>
-      </div>
+<div id="mailchimp_subscribe_wrap">
+  <%= form_for :user, :url => :subscriptions do |f| %>
+    <table>
+      <tr>
+        <td>
+          <%= text_field_tag :email, t('enter_your_email'), :class => 'email', :id => 'subscribe_email' %>
+        </td>
+        <td>
+          <%= submit_tag t('subscribe'), :id => 'op_subscribe' %>
+        </td>
+      </tr>
+    </table>
+  <% end -%>
+</div>

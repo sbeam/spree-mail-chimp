@@ -11,10 +11,6 @@ module SpreeMailChimp
 
       UsersController.send(:include, MailChimpSync::Sync)
 
-      User.class_eval do
-        attr_accessible :is_mail_list_subscriber
-      end
-
       AppConfiguration.class_eval do
         preference :mailchimp_double_opt_in, :boolean, :default => false
         preference :mailchimp_send_welcome, :boolean, :default => false

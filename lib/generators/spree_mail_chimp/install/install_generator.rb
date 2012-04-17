@@ -11,7 +11,7 @@ module SpreeMailChimp
       end
 
       def add_migrations
-        run 'rake railties:install:migrations FROM=spree_spree_mail_chimp'
+        run 'rake railties:install:migrations FROM=spree_mail_chimp'
       end
 
       def run_migrations

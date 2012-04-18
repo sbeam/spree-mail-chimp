@@ -8,9 +8,6 @@ module SpreeMailChimp
       Dir.glob(File.join(File.dirname(__FILE__), "../../app/**/*_decorator*.rb")) do |c|
         Rails.application.config.cache_classes ? require(c) : load(c)
       end
-
-      UsersController.send(:include, MailChimpSync::Sync)
-
     end
 
     config.to_prepare &method(:activate).to_proc

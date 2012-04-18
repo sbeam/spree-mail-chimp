@@ -1,14 +1,14 @@
-<%= render :partial => 'admin/shared/configuration_menu' %>
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
 
 <h1><%= t('mailchimp_settings') %></h1>
 
 <table>
   <tr>
-    <th scope="row"><%= t("mailchimp_api_key") %>:</th> 
+    <th scope="row"><%= t("mailchimp_api_key") %>:</th>
     <td><%= Spree::Config[:mailchimp_api_key] %></td>
   </tr>
   <tr>
-    <th scope="row"><%= t("mailchimp_list_id") %>:</th> 
+    <th scope="row"><%= t("mailchimp_list_id") %>:</th>
     <td><%= Spree::Config[:mailchimp_list_id] %></td>
   </tr>
 </table>

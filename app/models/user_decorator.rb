@@ -1,7 +1,7 @@
 Spree::User.class_eval do
 
   before_create :mailchimp_add_to_mailing_list
-  #before_update :mailchimp_update_mailing_list, :if => :is_mail_list_subscriber_changed?
+  before_update :mailchimp_update_in_mailing_list, :if => :is_mail_list_subscriber_changed?
 
   attr_accessible :is_mail_list_subscriber
 
@@ -17,6 +17,27 @@ Spree::User.class_eval do
       rescue Hominid::APIError => e
         logger.warn "SpreeMailChimp: Failed to create contact in Mailchimp: #{e.message}"
       end
+    end
+  end
+
+  # Removes the User from the Mailchimp mailing list
+  def mailchimp_remove_from_mailing_list
+    if !self.is_mail_list_subscriber? && self.mailchimp_subscriber_id.present?
+      begin
+        hominid.list_unsubscribe(mailchimp_list_id, self.email, false, false, true)
+        logger.debug "Removing mailchimp subscriber"
+      rescue Hominid::APIError => e
+        logger.warn "SpreeMailChimp: Failed to remove contact from Mailchimp: #{e.message}"
+      end
+    end
+  end
+
+  # Updates Mailchimp
+  def mailchimp_update_in_mailing_list
+    if self.is_mail_list_subscriber?
+      mailchimp_add_to_mailing_list
+    elsif !self.is_mail_list_subscriber?
+      mailchimp_remove_from_mailing_list
     end
   end
 

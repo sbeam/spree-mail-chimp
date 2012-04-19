@@ -38,20 +38,22 @@ Unfortunately these are only sent at the time the subscription is created, so th
 
 h3. Changes
 
+Version 3.0.0 - released 19 Apr 2012 - Spree 1.0 compat
 Version 2.0.0 - released 6 Dec 2010 - Spree 0.30-stable
 Version 1.0.1 - released 21 Nov 2010 - Spree 0.11-stable
 
 h3. Requirements
 
-Spree >= 0.3.0
+Spree >= 1.0
 hominid >= 2.2.0 http://rubygems.org/gems/hominid
 
 Also uses the jQuery SimpleModal plugin, included.
 
 h3. Credits
 
-Authored by Sam Beam sbeam@onsetcorps.net
-Migrated to Spree 0.30 by bzt bastian.schnurle@silberstein.de
+Authored by Sam Beam @sbeam
+Migrated to Spree 0.30 by Bastian Schnurle @bzt
+Migrated to Spree 1.0 (and extensively refactored) by James Kong @jkongie
 
 Inspired originally by https://github.com/softa/mailee_spree
 

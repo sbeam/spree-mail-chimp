@@ -1,6 +1,5 @@
 Spree::UsersController.class_eval do
 
-  after_filter :create_in_mailchimp, :only => [:create]
   after_filter :update_in_mailchimp, :only => [:update]
   # destroy.after :remove_from_mailchimp # can use r_c?
 
@@ -42,6 +41,9 @@ Spree::UsersController.class_eval do
   private
 
   def create_in_mailchimp
+    logger.info "========================="
+    logger.info "Mail list subscriber? #{@user.is_mail_list_subscriber}"
+    logger.info "========================="
     return unless @user.is_mail_list_subscriber
 
     Spree::User.benchmark "Adding mailchimp subscriber (list id=#{mc_list_id})" do
@@ -59,6 +61,7 @@ Spree::UsersController.class_eval do
     rescue Hominid::APIError => e
       # TODO alert someone there is a problem with mailchimp
       logger.warn "MailChimp::Sync: Failed to create contact in mailchimp: #{e.message}"
+
   end
 
   def remove_from_mailchimp

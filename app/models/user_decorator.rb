@@ -7,13 +7,16 @@ Spree::User.class_eval do
 
   private
 
+  # Subscribes a user to the mailing list
+  #
+  # Returns ?
   def mailchimp_add_to_mailing_list
     if self.is_mail_list_subscriber?
       begin
         hominid.list_subscribe(mailchimp_list_id, self.email, mailchimp_merge_vars, 'html', *mailchimp_subscription_opts)
         logger.debug "Fetching new mailchimp subscriber info"
 
-        assign_mailchimp_subscriber_id
+        assign_mailchimp_subscriber_id if self.mailchimp_subscriber_id.blank?
       rescue Hominid::APIError => e
         logger.warn "SpreeMailChimp: Failed to create contact in Mailchimp: #{e.message}"
       end
@@ -21,9 +24,12 @@ Spree::User.class_eval do
   end
 
   # Removes the User from the Mailchimp mailing list
+  #
+  # Returns ?
   def mailchimp_remove_from_mailing_list
     if !self.is_mail_list_subscriber? && self.mailchimp_subscriber_id.present?
       begin
+        # TODO: Get rid of those magic values. Maybe add them as Spree::Config options?
         hominid.list_unsubscribe(mailchimp_list_id, self.email, false, false, true)
         logger.debug "Removing mailchimp subscriber"
       rescue Hominid::APIError => e
@@ -33,6 +39,9 @@ Spree::User.class_eval do
   end
 
   # Updates Mailchimp
+  #
+  # Returns nothing
+  # TODO: Update the user's email address in Mailchimp if it changes
   def mailchimp_update_in_mailing_list
     if self.is_mail_list_subscriber?
       mailchimp_add_to_mailing_list
@@ -97,6 +106,7 @@ Spree::User.class_eval do
     [Spree::Config.get(:mailchimp_double_opt_in), true, true, Spree::Config.get(:mailchimp_send_welcome)]
   end
 
+  # Generates the merge variables for subscribing a user
   def mailchimp_merge_vars
     merge_vars = {}
     if mailchimp_merge_user_attribs = Spree::Config.get(:mailchimp_merge_vars)

@@ -41,7 +41,8 @@ Spree::User.class_eval do
   # Updates Mailchimp
   #
   # Returns nothing
-  # TODO: Update the user's email address in Mailchimp if it changes
+  # TODO: Update the user's email address in Mailchimp if it changes.
+  #       Look at listMemberUpdate
   def mailchimp_update_in_mailing_list
     if self.is_mail_list_subscriber?
       mailchimp_add_to_mailing_list

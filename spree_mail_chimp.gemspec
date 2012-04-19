@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_mail_chimp'
-  s.version     = '1.3.0'
+  s.version     = '3.0.0'
   s.summary     = 'Mail Chimp subscriptions for your Spree store using hominid'
   s.required_ruby_version = '>= 1.8.7'
 

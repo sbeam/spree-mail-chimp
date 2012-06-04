@@ -44,7 +44,7 @@ Version 1.0.1 - released 21 Nov 2010 - Spree 0.11-stable
 
 h3. Requirements
 
-Spree >= 1.0
+Spree >= 1.1.1
 hominid >= 2.2.0 http://rubygems.org/gems/hominid
 
 Also uses the jQuery SimpleModal plugin, included.

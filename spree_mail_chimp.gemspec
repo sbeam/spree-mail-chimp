@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_mail_chimp'
-  s.version     = '3.0.1'
+  s.version     = '3.0.2'
   s.summary     = 'Mail Chimp subscriptions for your Spree store using hominid'
   s.required_ruby_version = '>= 1.8.7'
 
@@ -10,7 +10,10 @@ Gem::Specification.new do |s|
   s.email             = 'sbeam@onsetcorps.net'
   s.homepage          = 'https://github.com/sbeam/spree-mail-chimp'
 
-  s.files        = Dir['README.textile', 'LICENSE', 'lib/**/*', 'app/**/*']
+
+  s.files       = `git ls-files`.split("\n")
+  s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
+
   s.require_path = 'lib'
   s.requirements << 'none'
 

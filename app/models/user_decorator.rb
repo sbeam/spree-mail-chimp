@@ -112,7 +112,7 @@ Spree::User.class_eval do
     merge_vars = {}
     if mailchimp_merge_user_attribs = Spree::Config.get(:mailchimp_merge_vars)
       mailchimp_merge_user_attribs.split(',').each do |method|
-        merge_vars[method.upcase] = self.send(method.downcase) if @user.respond_to? method.downcase
+        merge_vars[method.upcase] = self.send(method.downcase) if self.respond_to? method.downcase
       end
     end
     merge_vars

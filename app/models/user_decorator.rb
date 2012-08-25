@@ -52,11 +52,10 @@ Spree::User.class_eval do
       end
     else
       updated = false
-      if !updated
-        Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
-          updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
-        end
+      Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
+        updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
       end
+    
       mailchimp_updated_in_mailing_list if updated
     end
   end

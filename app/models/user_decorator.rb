@@ -1,7 +1,7 @@
 Spree::User.class_eval do
 
   before_create :mailchimp_add_to_mailing_list
-  before_update :mailchimp_update_in_mailing_list, :if => :is_mail_list_subscriber_changed?
+  before_update :mailchimp_update_in_mailing_list
 
   attr_accessible :is_mail_list_subscriber
 
@@ -44,10 +44,36 @@ Spree::User.class_eval do
   # TODO: Update the user's email address in Mailchimp if it changes.
   #       Look at listMemberUpdate
   def mailchimp_update_in_mailing_list
+    if self.is_mail_list_subscriber_changed?
+      if self.is_mail_list_subscriber?
+        mailchimp_add_to_mailing_list
+      elsif !self.is_mail_list_subscriber?
+        mailchimp_remove_from_mailing_list
+      end
+    else
+      updated = false
+      if !updated
+        Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
+          updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
+        end
+      end
+      mailchimp_updated_in_mailing_list if updated
+    end
+  end
+
+
+  # Updates a user in the mailing list
+  #
+  # Returns ?
+  def mailchimp_updated_in_mailing_list
     if self.is_mail_list_subscriber?
-      mailchimp_add_to_mailing_list
-    elsif !self.is_mail_list_subscriber?
-      mailchimp_remove_from_mailing_list
+      begin
+        hominid.list_update_member(mailchimp_list_id, self.mailchimp_subscriber_id, mailchimp_merge_vars, 'html', *mailchimp_subscription_opts)
+        logger.debug "updating mailchimp subscriber info"
+
+      rescue Hominid::APIError => e
+        logger.warn "SpreeMailChimp: Failed to update contact in Mailchimp: #{e.message}"
+      end
     end
   end
 

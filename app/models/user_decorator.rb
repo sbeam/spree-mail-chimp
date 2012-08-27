@@ -17,7 +17,7 @@ Spree::User.class_eval do
       elsif !self.is_mail_list_subscriber?
         mailchimp_remove_from_mailing_list
       end
-    else
+    elsif self.is_mail_list_subscriber?
       updated = false
       Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
         updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
@@ -136,7 +136,8 @@ Spree::User.class_eval do
     merge_vars = {}
     if mailchimp_merge_user_attribs = Spree::Config.get(:mailchimp_merge_vars)
       mailchimp_merge_user_attribs.split(',').each do |method|
-        merge_vars[method.upcase] = self.send(method.downcase) if self.respond_to? method.downcase
+        val = self.send(method.downcase) if self.respond_to? method.downcase
+        merge_vars[method.upcase] = val if val
       end
     end
     merge_vars

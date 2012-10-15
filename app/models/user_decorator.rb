@@ -11,19 +11,24 @@ Spree::User.class_eval do
   # TODO: Update the user's email address in Mailchimp if it changes.
   #       Look at listMemberUpdate
   def mailchimp_update_in_mailing_list(force = false)
-    if self.is_mail_list_subscriber_changed?
-      if self.is_mail_list_subscriber?
-        mailchimp_add_to_mailing_list
-      elsif !self.is_mail_list_subscriber?
-        mailchimp_remove_from_mailing_list
+    begin
+      if self.is_mail_list_subscriber_changed?
+        if self.is_mail_list_subscriber?
+          mailchimp_add_to_mailing_list
+        elsif !self.is_mail_list_subscriber?
+          mailchimp_remove_from_mailing_list
+        end
+      elsif self.is_mail_list_subscriber?
+        updated = false
+        Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
+          updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
+        end
+      
+        mailchimp_updated_in_mailing_list if updated || force
       end
-    elsif self.is_mail_list_subscriber?
-      updated = false
-      Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
-        updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
-      end
-    
-      mailchimp_updated_in_mailing_list if updated || force
+    rescue  => error
+      logger.error(error)
+      logger.error(error.backtrace.join("\n"))
     end
   end
 

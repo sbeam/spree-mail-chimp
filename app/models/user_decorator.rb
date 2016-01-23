@@ -1,9 +1,36 @@
 Spree::User.class_eval do
 
   before_create :mailchimp_add_to_mailing_list
-  before_update :mailchimp_update_in_mailing_list, :if => :is_mail_list_subscriber_changed?
+  before_update :mailchimp_update_in_mailing_list
 
   attr_accessible :is_mail_list_subscriber
+
+  # Updates Mailchimp
+  #
+  # Returns nothing
+  # TODO: Update the user's email address in Mailchimp if it changes.
+  #       Look at listMemberUpdate
+  def mailchimp_update_in_mailing_list(force = false)
+    begin
+      if self.is_mail_list_subscriber_changed?
+        if self.is_mail_list_subscriber?
+          mailchimp_add_to_mailing_list
+        elsif !self.is_mail_list_subscriber?
+          mailchimp_remove_from_mailing_list
+        end
+      elsif self.is_mail_list_subscriber?
+        updated = false
+        Spree::Config.get(:mailchimp_merge_vars).split(',').each do |method|
+          updated |= self.send(method.downcase+"_changed?") if self.respond_to? method.downcase+"_changed?"
+        end
+      
+        mailchimp_updated_in_mailing_list if updated || force
+      end
+    rescue  => error
+      logger.error(error)
+      logger.error(error.backtrace.join("\n"))
+    end
+  end
 
   private
 
@@ -38,16 +65,18 @@ Spree::User.class_eval do
     end
   end
 
-  # Updates Mailchimp
+  # Updates a user in the mailing list
   #
-  # Returns nothing
-  # TODO: Update the user's email address in Mailchimp if it changes.
-  #       Look at listMemberUpdate
-  def mailchimp_update_in_mailing_list
+  # Returns ?
+  def mailchimp_updated_in_mailing_list
     if self.is_mail_list_subscriber?
-      mailchimp_add_to_mailing_list
-    elsif !self.is_mail_list_subscriber?
-      mailchimp_remove_from_mailing_list
+      begin
+        hominid.list_update_member(mailchimp_list_id, self.mailchimp_subscriber_id, mailchimp_merge_vars, 'html', *mailchimp_subscription_opts)
+        logger.debug "updating mailchimp subscriber info"
+
+      rescue Hominid::APIError => e
+        logger.warn "SpreeMailChimp: Failed to update contact in Mailchimp: #{e.message}"
+      end
     end
   end
 
@@ -112,7 +141,8 @@ Spree::User.class_eval do
     merge_vars = {}
     if mailchimp_merge_user_attribs = Spree::Config.get(:mailchimp_merge_vars)
       mailchimp_merge_user_attribs.split(',').each do |method|
-        merge_vars[method.upcase] = self.send(method.downcase) if @user.respond_to? method.downcase
+        val = self.send(method.downcase) if self.respond_to? method.downcase
+        merge_vars[method.upcase] = val if val
       end
     end
     merge_vars

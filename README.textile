@@ -36,6 +36,8 @@ Note, using Mail Chimp "Merge Vars", you can have any callable methods on User s
 to the MC list, mapped to indentically named (but uppercased) fields in the MC list admin console.
 Unfortunately these are only sent at the time the subscription is created, so there isn't much available.
 
+As well you need the fields again lowercased with _changed? functions if you want them to update in mailchimp when you update them.
+
 h3. Changes
 
 Version 3.0.0 - released 19 Apr 2012 - Spree 1.0 compat
